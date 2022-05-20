@@ -1,5 +1,6 @@
 namespace Cardinal;
 using System;
+using System.Collections.Generic;
 
 using Cardinal.Entities;
 using Cardinal.Controller;
@@ -11,6 +12,7 @@ public class Core
     private IListener? Listener;
     private bool Active = true;
     private Cardinal.Service.ILogger log = new Cardinal.Service.Logger();
+    private List<Cardinal.Controller.Event> eventControllers = new List<Controller.Event>();
 
     public Core()
     {
@@ -20,6 +22,8 @@ public class Core
             IDENTIFIER = "GameServer",
             IS_LISTENER = false
         };
+
+        this.loadVars();
 
         this.Init();
     }
@@ -74,21 +78,43 @@ public class Core
 
     private void WorkerLoop()
     {
-        // Workers look items in redis.
         this.log.Verbose("Worker iteration");
+        // Workers look items in redis.
+        System.Threading.Thread.Sleep(5000);
     }
 
     private void StartWorker()
     {
         this.log.Info("Initialising as Worker");
-        this.Worker = new Worker();
-        this.log.Info("Initialised!");
+        this.Worker = new Worker(this.config);
+        var workerQueue = new Controller.Event("Worker");
+        this.eventControllers.Add(workerQueue);
+        this.log.Info("Worker Initialised!");
     }
 
     private void StartListener()
     {
         this.log.Info("Initialising as Listener");
         this.Listener = new Listener();
-        this.log.Info("Initialised!");
+        this.log.Info("Listener Initialised!");
+    }
+
+    private void loadVars()
+    {
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("REDIS_HOST"))) {
+            this.config.IP_ADDRESS = Environment.GetEnvironmentVariable("REDIS_HOST");
+        }
+
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("REDIS_PORT"))) {
+            this.config.PORT = int.Parse(Environment.GetEnvironmentVariable("REDIS_PORT") ?? "0");
+        }
+
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IDENTIFIER"))) {
+            this.config.IDENTIFIER = Environment.GetEnvironmentVariable("IDENTIFIER");
+        }
+
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IS_LISTENER"))) {
+            this.config.IS_LISTENER = Environment.GetEnvironmentVariable("IS_LISTENER") == "true";
+        }
     }
 }

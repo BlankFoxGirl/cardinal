@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  gameserver:
+    build: GameServer/
+    ports:
+      - "8000:5000"
+    depends_on:
+      - redis
+  worldserver:
+    build: WorldServer/
+    depends_on:
+      - redis
+  worker:
+    build: Worker/
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      IDENTIFIER: "Worker"
+      IS_LISTENER: "false"
+    links:
+      - redis
+  redis:
+    hostname: redis
+    image: "redis:alpine"
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel verbose

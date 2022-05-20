@@ -15,7 +15,7 @@ public class EventTest
     [Test]
     public void Event_Is_Init()
     {
-        Event e = new Event();
+        Event e = new Event("");
         Assert.That(e.IsInit(), Is.EqualTo(true));
     }
 
@@ -23,7 +23,7 @@ public class EventTest
     public void Event_Can_Run_OnReceive()
     {
         string eventMessage = "0x01:test{|}0x02:test{|}0x03:test";
-        Event e = new Event();
+        Event e = new Event("");
         Assert.That(e.IsInit(), Is.EqualTo(true));
         Assert.That(() => e.OnReceive(eventMessage), Throws.InstanceOf<System.IO.FileNotFoundException>());
     }
@@ -32,7 +32,7 @@ public class EventTest
     public void Event_Can_Run_OnReceive_But_Exits_No_target()
     {
         string eventMessage = "0x01:test{|}0x02:{|}0x03:test";
-        IEvent e = new Event();
+        IEvent e = new Event("");
         Assert.That(e.IsInit(), Is.EqualTo(true));
         Assert.That(() => e.OnReceive(eventMessage), Throws.InstanceOf<Cardinal.Exceptions.InvalidEventException>());
     }
