@@ -6,6 +6,6 @@ public class Listener : AbstractController, IListener
 {
     public override void init()
     {
-        
+        base.init(); // Call parent init.
     }
 }

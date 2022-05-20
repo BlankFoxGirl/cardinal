@@ -1,6 +1,6 @@
 namespace Cardinal.Service;
 
-interface ILogger
+public interface ILogger
 {
     public void Error(string message, string payload = "");
     public void Info(string message, string payload = "");

@@ -1,6 +1,6 @@
 namespace Cardinal.Controller;
 
-interface IWorker
+public interface IWorker
 {
-
+    public bool IsInit();
 }

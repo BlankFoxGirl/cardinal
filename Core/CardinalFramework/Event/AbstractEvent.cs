@@ -36,24 +36,28 @@ class AbstractEvent
             throw new InvalidMessageException("Event received is invalid.");
         }
 
+        this.setId(this.getId(message) ?? "");
+        this.setTarget(this.getTarget(message) ?? "");
+        this.setPayload(this.getPayload(message) ?? "" );
+
         return this;
     }
 
     private bool eventIsValid(string message)
     {
-        if (message.IndexOf("0x01:") != -1) {
+        if (message.IndexOf("0x01:") == -1) {
             return false;
         }
 
-        if (message.IndexOf("0x02:") != -1) {
+        if (message.IndexOf("0x02:") == -1) {
             return false;
         }
 
-        if (message.IndexOf("0x03:") != -1) {
+        if (message.IndexOf("0x03:") == -1) {
             return false;
         }
 
-        if (message.IndexOf("{|}") != -1) {
+        if (message.IndexOf("{|}") == -1) {
             return false;
         }
 
@@ -94,7 +98,7 @@ class AbstractEvent
             int indexStart = part.IndexOf(identifier + ":");
             if (indexStart != -1) {
                 // Found, return with this value;
-                return part.Substring(indexStart);
+                return part.Substring(indexStart + (identifier.Length + 1));
             }
         }
         return null;

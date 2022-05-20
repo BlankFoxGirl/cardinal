@@ -1,6 +1,6 @@
 namespace Cardinal.Exceptions;
 
-class InvalidEventException : AbstractException
+public class InvalidEventException : AbstractException
 {
     public string? payload { get; }
     public InvalidEventException (string message) : base(message) {}

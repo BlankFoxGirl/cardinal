@@ -1,6 +1,7 @@
 namespace Cardinal.Controller;
 
-interface IEvent
+public interface IEvent
 {
-    public void OnReceive(string message) {}
+    public void OnReceive(string message);
+    public bool IsInit();
 }

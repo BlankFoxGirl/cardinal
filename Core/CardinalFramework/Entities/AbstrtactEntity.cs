@@ -3,7 +3,7 @@ using System;
 namespace Cardinal.Entities;
 public class AbstractEntity
 {
-    string? uuid { get; set; }
+    public string? uuid { get; set; }
 
     public AbstractEntity()
     {
