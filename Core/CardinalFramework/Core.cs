@@ -74,6 +74,7 @@ public class Core
     {
         // Listeners look for TCP connections.
         this.log.Verbose("Listener iteration");
+        System.Threading.Thread.Sleep(100);
     }
 
     private void WorkerLoop()

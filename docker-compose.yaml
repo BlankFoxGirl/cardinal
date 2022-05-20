@@ -6,6 +6,11 @@ services:
       - "8000:5000"
     depends_on:
       - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      IDENTIFIER: "GameServer"
+      IS_LISTENER: "true"
   worldserver:
     build: WorldServer/
     depends_on:
