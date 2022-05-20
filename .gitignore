@@ -2,6 +2,7 @@
 **/*.log
 .*
 !.gitignore
+!.github
 **/bin/**/*
 **/obj/**/*
 CoreTest/TestResults

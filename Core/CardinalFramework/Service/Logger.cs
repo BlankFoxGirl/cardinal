@@ -2,7 +2,7 @@ namespace Cardinal.Service;
 using System;
 public class Logger : ILogger
 {
-    enum Level
+    public enum Level
     {
         Error,
         Warning,
@@ -11,29 +11,34 @@ public class Logger : ILogger
         Verbose
     }
 
+    public void Log(string message, string payload = "", Level logLevel = Level.Info)
+    {
+        this.write(message, payload, logLevel);
+    }
+
     public void Error(string message, string payload = "")
     {
-        this.write(message, payload, Level.Error);
+        this.Log(message, payload, Level.Error);
     }
 
     public void Info(string message, string payload = "")
     {
-        this.write(message, payload, Level.Info);
+        this.Log(message, payload, Level.Info);
     }
 
     public void Warning(string message, string payload = "")
     {
-        this.write(message, payload, Level.Warning);
+        this.Log(message, payload, Level.Warning);
     }
 
     public void Debug(string message, string payload = "")
     {
-        this.write(message, payload, Level.Debug);
+        this.Log(message, payload, Level.Debug);
     }
 
     public void Verbose(string message, string payload = "")
     {
-        this.write(message, payload, Level.Verbose);
+        this.Log(message, payload, Level.Verbose);
     }
 
     private void write(string message, string payload = "", Level level = Level.Info)
