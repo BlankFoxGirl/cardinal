@@ -4,6 +4,7 @@ using Cardinal.Entities;
 public class AbstractController
 {
     public Config? Conf;
+    private bool isInit = false;
 
     public AbstractController()
     {
@@ -19,6 +20,10 @@ public class AbstractController
 
     virtual public void init()
     {
-
+        this.isInit = true;
+    }
+    public bool IsInit()
+    {
+        return this.isInit;
     }
 }

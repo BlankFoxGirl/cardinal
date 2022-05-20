@@ -1,6 +1,6 @@
 namespace Cardinal.Exceptions;
 using System;
-class AbstractException : Exception
+public class AbstractException : Exception
 {
     public AbstractException() { }
 

@@ -1,6 +1,6 @@
 namespace Cardinal.Service;
 
-interface IRedis
+public interface IRedis
 {
     
 }

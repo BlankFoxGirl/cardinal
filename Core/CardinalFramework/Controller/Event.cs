@@ -10,23 +10,14 @@ public class Event : AbstractController, IEvent
         this.log.Debug("Received Message: ", message);
         AbstractEvent e = new AbstractEvent(message);
 
-        if (e == null) {
-            this.log.Verbose("Excited.");
-            return;
-        }
-
         AbstractEvent[] arg = {e};
 
-        try {
-            string? target = e.getTarget();
+        string? target = e.getTarget(message);
 
-            if (target == null) {
-                throw new Exception("No target specified.");
-            }
-
-            Activator.CreateInstance("Cardinal.Event", target, arg);
-        } catch (Exception exception) {
-            throw new InvalidEventException(exception.Message);
+        if (string.IsNullOrEmpty(target)) {
+            throw new InvalidEventException("No target specified.");
         }
+
+        Activator.CreateInstance("Cardinal.Event", target, arg);
     }
 }

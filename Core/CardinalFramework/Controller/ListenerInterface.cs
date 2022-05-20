@@ -1,6 +1,6 @@
 namespace Cardinal.Controller;
 
-interface IListener
+public interface IListener
 {
 
 }
