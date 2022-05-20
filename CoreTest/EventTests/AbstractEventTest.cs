@@ -60,7 +60,7 @@ public class AbstractEvent
         Assert.That(ae.compile(), Is.Empty);
     }
 
-        [Test]
+    [Test]
     public void AbstractEvent_Can_Compile_Id_Target()
     {
         Cardinal.Event.AbstractEvent ae = new Cardinal.Event.AbstractEvent();
@@ -70,5 +70,18 @@ public class AbstractEvent
             ae.compile();
         }, Throws.Nothing);
         Assert.That(ae.compile(), Is.EqualTo("0x01:test{|}0x02:test"));
+    }
+
+    [Test]
+    public void AbstractEvent_Can_Compile_Event()
+    {
+        Cardinal.Event.AbstractEvent ae = new Cardinal.Event.AbstractEvent();
+        ae.setIdentifier("test");
+        ae.setTarget("test");
+        ae.setPayload("test");
+        Assert.That(() => {
+            ae.compile();
+        }, Throws.Nothing);
+        Assert.That(ae.compile(), Is.EqualTo("0x01:test{|}0x02:test{|}0x03:test"));
     }
 }

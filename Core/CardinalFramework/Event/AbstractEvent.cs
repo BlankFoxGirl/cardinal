@@ -184,8 +184,11 @@ public class AbstractEvent
         response += this.compilePart(response, EventHeader.Code.IDENTIFIER);
         response += this.compilePart(response, EventHeader.Code.TARGET);
         response += this.compilePart(response, EventHeader.Code.PAYLOAD);
+        if (response.Length < 5) {
+            return "";
+        }
 
-        return response;
+        return response.Substring(0, response.Length - 3);
     }
 
     /// <param name="message">Event string to be parsed into the current event.</param>
@@ -209,9 +212,9 @@ public class AbstractEvent
         }
 
         string returnResponse = this.toKey(EventHeader.toC(code));
-        returnResponse += this.getProperty(EventHeader.toS(code));
+        returnResponse += this.padd(this.getProperty(EventHeader.toS(code)));
 
-        return this.padd(response, returnResponse);
+        return returnResponse;
     }
 
     private string ucFirst(string input)
@@ -265,14 +268,10 @@ public class AbstractEvent
         return null;
     }
 
-    private string padd(string? message, string value)
+    private string padd(string value)
     {
         string sep = "{|}";
-        if (string.IsNullOrEmpty(message)) {
-            return value + sep;
-        }
-
-        return value;
+        return value + sep;
     }
 
     private string toKey(string constant)

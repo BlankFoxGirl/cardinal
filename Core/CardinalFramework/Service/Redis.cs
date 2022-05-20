@@ -6,11 +6,32 @@ public static class Redis
 {
     private static IConnectionMultiplexer? conn;
     private static ISubscriber? sub;
+    private static ILogger log = new Logger();
 
     public static void Connect(String connectionString)
     {
+        Redis.log.Info("Connecting to Redis", connectionString);
         var connection = ConnectionMultiplexer.Connect(connectionString);
         Redis.conn = (IConnectionMultiplexer)connection;
+        while (connection.IsConnecting) {
+            Redis.log.Info("Waiting for REDIS connection");
+            System.Threading.Thread.Sleep(1000);
+        }
+        Redis.log.Info("Redis no longer IsConnecting.");
+
+        if (connection.IsConnected) {
+            Redis.log.Info("Redis connection is successful!");
+        }
+
+        Redis.sub = Redis.conn.GetSubscriber();
+
+        Redis.conn.ConnectionFailed += (object? sender, ConnectionFailedEventArgs args) => {
+            Redis.log.Warning("Connection to Redis failed.");
+        };
+
+        Redis.conn.ConnectionRestored += (object? sender, ConnectionFailedEventArgs args) => {
+            Redis.log.Info("Connection to Redis is successful.");
+        };
     }
 
     public static void Connect(RedisConfig endPoint)
@@ -24,9 +45,15 @@ public static class Redis
                     ChannelPrefix = endPoint.ChannelPrefix
                 }
             );
+            while (connection.IsConnecting) {
+                Redis.log.Info("Waiting for REDIS connection");
+                System.Threading.Thread.Sleep(1000);
+            }
+            Redis.log.Info("Redis no longer IsConnecting.");
             Redis.conn = (IConnectionMultiplexer)connection;
             Redis.sub = Redis.conn.GetSubscriber();
         } catch (RedisConnectionException exception) {
+            Redis.log.Error(exception.Message);
             throw new Exception(exception.Message);
         }
     }
@@ -62,6 +89,13 @@ public static class Redis
         if (Redis.sub == null) {
             return;
         }
-        Redis.sub.Publish(Topic, Message);
+        Redis.sub.PublishAsync(Topic, Message);
+    }
+    public static void Publish(String Topic, Cardinal.Event.AbstractEvent e)
+    {
+        if (Redis.sub == null) {
+            return;
+        }
+        Redis.sub.PublishAsync(Topic, e.compile());
     }
 }
