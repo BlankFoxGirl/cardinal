@@ -22,6 +22,8 @@ public class AbstractControllerTest
         AbstractController ac = new AbstractController(conf);
         Assert.That(ac.IsInit(), Is.EqualTo(true));
         Assert.That(ac.Conf, Is.Not.Null);
-        Assert.That(ac.Conf.IS_LISTENER, Is.EqualTo(true));
+        if (ac.Conf != null) {
+            Assert.That(ac.Conf.IS_LISTENER, Is.EqualTo(true));
+        }
     }
 }

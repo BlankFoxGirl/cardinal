@@ -31,7 +31,7 @@ public class WorkerTest
     public void Worker_Can_Init_With_Config()
     {
         Cardinal.Entities.Config conf = new Cardinal.Entities.Config{
-            IP_ADDRESS = "127.0.0.1",
+            IP_ADDRESS = "0.0.0.0",
             PORT = 2323
         };
         Assert.That(() => {
@@ -43,7 +43,7 @@ public class WorkerTest
     public void Worker_Did_Init_With_Config()
     {
         Cardinal.Entities.Config conf = new Cardinal.Entities.Config{
-            IP_ADDRESS = "127.0.0.1",
+            IP_ADDRESS = "0.0.0.0",
             PORT = 2323
         };
 
