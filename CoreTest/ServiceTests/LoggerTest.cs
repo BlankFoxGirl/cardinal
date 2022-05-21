@@ -27,6 +27,7 @@ public class LoggerTest
     [Test]
     public void Logger_Can_Log_Debug()
     {
+        Cardinal.Core.logLevel = Cardinal.Service.Logger.Level.Debug;
         Assert.That(() => {
             this.logger.Debug("Test debug");
         }, Throws.Nothing);
@@ -35,6 +36,7 @@ public class LoggerTest
     [Test]
     public void Logger_Can_Log_Verbose()
     {
+        Cardinal.Core.logLevel = Cardinal.Service.Logger.Level.Verbose;
         Assert.That(() => {
             this.logger.Verbose("Test verbose");
         }, Throws.Nothing);
@@ -46,6 +48,80 @@ public class LoggerTest
         Assert.That(() => {
             this.logger.Info("Test info");
         }, Throws.Nothing);
+    }
+
+    [Test]
+    public void Logger_Cannot_Log_Disabled_Level()
+    {
+        Cardinal.Core.logLevel = Cardinal.Service.Logger.Level.Info;
+        Logger l = new Logger();
+        Assert.That(
+            l.Log("Test info", "", Cardinal.Service.Logger.Level.Verbose),
+            Is.EqualTo(false)
+        );
+    }
+
+    [Test]
+    public void Logger_Get_Level_From_String()
+    {
+
+        Logger l = new Logger();
+        Assert.That(
+            l.LevelFromString("0"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Error)
+        );
+        Assert.That(
+            l.LevelFromString("Error"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Error)
+        );
+        Assert.That(
+            l.LevelFromString("1"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Warning)
+        );
+        Assert.That(
+            l.LevelFromString("Warning"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Warning)
+        );
+        Assert.That(
+            l.LevelFromString("2"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Info)
+        );
+        Assert.That(
+            l.LevelFromString("Info"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Info)
+        );
+        Assert.That(
+            l.LevelFromString("3"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Debug)
+        );
+        Assert.That(
+            l.LevelFromString("Debug"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Debug)
+        );
+        Assert.That(
+            l.LevelFromString("4"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Verbose)
+        );
+        Assert.That(
+            l.LevelFromString("Verbose"),
+            Is.EqualTo(Cardinal.Service.Logger.Level.Verbose)
+        );
+    }
+
+    [Test]
+    public void Logger_Cannot_Get_Level_From_Null()
+    {
+        Assert.That(() => {
+            this.logger.LevelFromString(null);
+        }, Throws.InstanceOf<Cardinal.Exceptions.InvalidLogLevelException>());
+    }
+
+    [Test]
+    public void Logger_Cannot_Get_Level_From_Invalid()
+    {
+        Assert.That(() => {
+            this.logger.LevelFromString("12312312312");
+        }, Throws.InstanceOf<Cardinal.Exceptions.InvalidLogLevelException>());
     }
 
 }

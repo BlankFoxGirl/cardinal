@@ -1,15 +1,26 @@
 version: "3.9"
 services:
   gameserver:
-    build: GameServer/
+    build: BaseServer/
     ports:
       - "8000:5000"
     depends_on:
       - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      IDENTIFIER: "GameServer"
+      IS_LISTENER: "true"
+      GS_POST: 7777
   worldserver:
-    build: WorldServer/
+    build: BaseServer/
     depends_on:
       - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      IDENTIFIER: "WorldServer"
+      IS_LISTENER: "false"
   worker:
     build: Worker/
     depends_on:

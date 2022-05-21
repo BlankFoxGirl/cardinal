@@ -11,7 +11,7 @@ public class Worker : AbstractController, IWorker
         base.init();
         string connectionString = "localhost,abortConnect=false";
         if (this.Conf != null) {
-            connectionString = this.Conf.IP_ADDRESS + ":" + this.Conf.PORT + ",abortConnect=false";
+            connectionString = this.Conf.REDIS_HOST + ":" + this.Conf.REDIS_PORT + ",abortConnect=false";
         }
         Redis.Connect(connectionString);
     }

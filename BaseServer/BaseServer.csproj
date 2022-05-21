@@ -9,8 +9,13 @@
   <ItemGroup>
     <Reference Include="Cardinal">
       <HintPath>../Core/CardinalFramework/bin/Debug/net6.0/CardinalFramework.dll</HintPath>
-      <HintPath>/app/CardinalFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Cardinal">
+      <HintPath>../Core/CardinalFramework/bin/Debug/net6.0/CardinalFramework.dll</HintPath>
       <HintPath>bin/Debug/net6.0/CardinalFramework.dll</HintPath>
+      <HintPath>/app/CardinalFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

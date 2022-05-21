@@ -1,13 +1,13 @@
-﻿namespace Cardinal.Workers;
+﻿namespace Cardinal.GameServers;
 using Cardinal;
 using System;
 
-class Worker
+class GameServer
 {
     private static Core? cardinal;
     static void Main()
     {
         System.Console.WriteLine("Starting");
-        Worker.cardinal = new Core();
+        GameServer.cardinal = new Core();
     }
 }

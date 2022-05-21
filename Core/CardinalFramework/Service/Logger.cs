@@ -11,9 +11,9 @@ public class Logger : ILogger
         Verbose
     }
 
-    public void Log(string message, string payload = "", Level logLevel = Level.Info)
+    public bool Log(string message, string payload = "", Level logLevel = Level.Info)
     {
-        this.write(message, payload, logLevel);
+        return this.write(message, payload, logLevel);
     }
 
     public void Error(string message, string payload = "")
@@ -41,9 +41,13 @@ public class Logger : ILogger
         this.Log(message, payload, Level.Verbose);
     }
 
-    private void write(string message, string payload = "", Level level = Level.Info)
+    private bool write(string message, string payload = "", Level level = Level.Info)
     {
+        if (Core.logLevel < level) {
+            return false; // Do not write log.
+        }
         string prefix = "";
+        string stack = new System.Diagnostics.StackTrace().ToString();
         switch (level) {
             case Level.Error:
                 prefix = "[Error]";
@@ -52,10 +56,12 @@ public class Logger : ILogger
             case Level.Warning:
                 prefix = "[Warning]";
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                stack = "";
                 break;
             case Level.Debug:
                 prefix = "[Debug]";
                 Console.ForegroundColor = ConsoleColor.Cyan;
+                stack = "";
                 break;
             case Level.Verbose:
                 prefix = "[Verbose]";
@@ -64,14 +70,49 @@ public class Logger : ILogger
             default:
                 prefix = "[Info]";
                 Console.ForegroundColor = ConsoleColor.White;
+                stack = "";
             break;
         }
+
+        string timeStamp = (DateTime.Now).ToString("yyyy-MM-dd-HH:mm:ss.ffff");
+        if (!string.IsNullOrEmpty(stack)) {
+            stack = " ->> " + stack;
+        }
         if (string.IsNullOrEmpty(payload)) {
-            Console.WriteLine("\t" + prefix + message);
+            Console.WriteLine("\t" + timeStamp + " - " + prefix + message  + stack);
         } else {
-            Console.WriteLine("\t" + prefix + message + " -> " + payload);
+            Console.WriteLine("\t" + timeStamp + " - " + prefix + message + " -> " + payload + stack);
         }
 
         Console.ResetColor();
+        return true;
+    }
+
+    public Level LevelFromString(string? level)
+    {
+        if (string.IsNullOrEmpty(level)) 
+        {
+            throw new Exceptions.InvalidLogLevelException("Supplied log level is null.");
+        }
+        switch(level)
+        {
+            case "Error":
+            case "0":
+                return Level.Error;
+            case "Warning":
+            case "1":
+                return Level.Warning;
+            case "Info":
+            case "2":
+                return Level.Info;
+            case "Debug":
+            case "3":
+                return Level.Debug;
+            case "Verbose":
+            case "4":
+                return Level.Verbose;
+            default:
+                throw new Exceptions.InvalidLogLevelException("Supplied log level " + level + " is invalid.");
+        }
     }
 }

@@ -7,4 +7,5 @@ public interface ILogger
     public void Warning(string message, string payload = "");
     public void Debug(string message, string payload = "");
     public void Verbose(string message, string payload = "");
+    public Logger.Level LevelFromString(string? level);
 }

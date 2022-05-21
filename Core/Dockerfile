@@ -1,9 +1,17 @@
-ARG REPO=mcr.microsoft.com/dotnet/runtime-deps
-FROM $REPO:6.0.5-alpine3.15-amd64
-
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+WORKDIR /app
 # .NET globalization APIs will use invariant mode by default because DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true is set
 # by the base runtime-deps image. See https://aka.ms/dotnet-globalization-alpine-containers for more information.
 
+# Copy everything
+COPY . ./
+
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.5-alpine3.15-amd64
 # .NET Runtime version
 ENV DOTNET_VERSION=6.0.5
 
@@ -15,3 +23,6 @@ RUN wget -O dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET
     && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet \
     && rm dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
+WORKDIR /app
+COPY --from=build-env /app/out .
