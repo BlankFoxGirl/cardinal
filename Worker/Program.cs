@@ -2,7 +2,8 @@
 using Cardinal;
 using System;
 
-class Worker {
+class Worker
+{
     private static Core? cardinal;
     static void Main()
     {

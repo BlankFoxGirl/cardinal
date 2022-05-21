@@ -9,26 +9,35 @@ public class Event : AbstractController, IEvent
     public Event(string Topic)
     {
         this.Topic = Topic;
-        Cardinal.Service.Redis.Subscribe(Topic, async message => {
-            try {
-                this.OnReceive(message.ToString());
-            } catch (Exception e) {
-                this.log.Error(e.Message, message.ToString());
-            }
+        Cardinal.Service.Redis.Subscribe(Topic, async message =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    this.OnReceive(message.ToString());
+                }
+                catch (Exception e)
+                {
+                    this.log.Error(e.Message, message.ToString());
+                }
+            });
+            Cardinal.Event.AbstractEvent e = new AbstractEvent("Sup!", "AbstractEvent", "Test");
+            Cardinal.Service.Redis.Publish(this.Topic, e);
         });
-        Cardinal.Event.AbstractEvent e = new AbstractEvent("Sup!","AbstractEvent","Test");
-        Cardinal.Service.Redis.Publish(this.Topic, e);
     }
-    public void OnReceive(string message) {
+    public void OnReceive(string message)
+    {
         // This processes messages.
         this.log.Debug("Received Message: ", message);
         AbstractEvent e = new AbstractEvent(message);
 
-        AbstractEvent[] arg = {e};
+        AbstractEvent[] arg = { e };
 
         string? target = e.getTarget(message);
 
-        if (string.IsNullOrEmpty(target)) {
+        if (string.IsNullOrEmpty(target))
+        {
             throw new InvalidEventException("No target specified.");
         }
 

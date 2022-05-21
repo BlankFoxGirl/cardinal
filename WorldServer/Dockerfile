@@ -1,5 +1,0 @@
-FROM sarahjabado/cardinal:0.0.1a
-
-# .NET globalization APIs will use invariant mode by default because DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true is set
-# by the base runtime-deps image. See https://aka.ms/dotnet-globalization-alpine-containers for more information.
-

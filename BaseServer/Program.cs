@@ -2,7 +2,8 @@
 using Cardinal;
 using System;
 
-class GameServer {
+class GameServer
+{
     private static Core? cardinal;
     static void Main()
     {
