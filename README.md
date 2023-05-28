@@ -4,6 +4,8 @@ This project is no longer maintained. We will not be accepting pull requests, ad
 
 Please refer to the new project: [Cardinal C++ Rewrite](https://github.com/sarahjabado/cardinal-cpp)
 
+* * *
+
 ### Cardinal
 [Cardinal Core Website (Hosted via Github Pages)](https://cardinalcore.io)
   
