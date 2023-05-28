@@ -1,4 +1,10 @@
-# Cardinal
+# Project Status:  🚨 Unmaintained 🚨
+
+This project is no longer maintained. We will not be accepting pull requests, addressing issues, nor making future releases.
+
+Please refer to the new project: [Cardinal C++ Rewrite](https://github.com/sarahjabado/cardinal-cpp)
+
+### Cardinal
 [Cardinal Core Website (Hosted via Github Pages)](https://cardinalcore.io)
   
 Cardinal is a scalable distributed event driven MMORPG Server framework used to provide development simplicity through event definitions and provides Terraform for all major CSPs to deploy Kubernetes pods and supports AWS ECS.
@@ -10,19 +16,19 @@ Cardinal is a scalable distributed event driven MMORPG Server framework used to 
 Live Development Stream: [![Twitch Status](https://img.shields.io/twitch/status/BlankFoxGirl)](https://twitch.tv/BlankFoxGirl)  
 *Feel free to pop on, ask questions, and chat.*
 
-## Basic Setup.
+#### Basic Setup.
 1. `$ cd Core`.
 1. `$ dotnet build`.
 1. `$ cd ../Worker`.
 1. `$ dotnet run`.
 
-## Running Unit Tests.
+#### Running Unit Tests.
 1. `$ cd CoreTest && dotnet test && cd ../`.
 
-## Generate Coverage.
+#### Generate Coverage.
 1. `$ cd CoreTest && dotnet test --collect:"XPlat Code Coverage" && cd ../`.
 
-## Expected Features:
+#### Expected Features:
 - Dockerfile for each Node.
 - Compose.yaml file to instantiate development environment.
 - Build scripts to control creating own images and publishing to docker.
