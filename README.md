@@ -1,11 +1,3 @@
-# Project Status:  🚨 Unmaintained 🚨
-
-This project is no longer maintained. We will not be accepting pull requests, addressing issues, nor making future releases.
-
-Please refer to the new project: [Cardinal C++ Rewrite](https://github.com/sarahjabado/cardinal-cpp)
-
-* * *
-
 ### Cardinal
 [Cardinal Core Website (Hosted via Github Pages)](https://cardinalcore.io)
   
@@ -40,3 +32,7 @@ Live Development Stream: [![Twitch Status](https://img.shields.io/twitch/status/
 - How to use guide.
 - Tutorials.
 - Verbose Development Documentation.
+
+Note:
+I have made the decision to resume maintaining this codebase and focus my efforts on supporting Unity based development on C#.
+Checkout the repository https://github.com/Foxables/modular-unity which introduces a facinating approach to event driven modular development of Unity games enabling copy-and-paste modules with automatic initiation. I will be writing a module for Cardinal and publishing it specifically for this intriguing architectural approach to Unity. The module will be extendable for your customised server. In addition, I will be producing a functional MMO RPG server and client which uses Cardinal Framework and Modular ED Unity over the next few months which should provide a good foundation to work with and possibly publish it in the Unity Store.
